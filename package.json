@@ -1,11 +1,12 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
+  "type": "module",
   "description": "[![Actions Status](https://github.com/frieswithsalsa/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/frieswithsalsa/frontend-project-46/actions)",
   "private": true,
-  "main": "index.js",
+  "main": "src/index.js",
   "bin": {
-    "gendiff": "./bin/gendiff.js"
+    "gendiff": "bin/index.js"
   },
   "scripts": {
     "test": "jest"
@@ -13,7 +14,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^12.1.0"
+    "commander": "^12.1.0",
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "jest": "^29.7.0"
