@@ -6,7 +6,7 @@
   "private": true,
   "main": "src/index.js",
   "bin": {
-    "gendiff": "bin/index.js"
+    "gendiff": "bin/gendiff.js"
   },
   "scripts": {
     "test": "jest"
