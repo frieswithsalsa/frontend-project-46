@@ -22,4 +22,13 @@ describe('gendiff', () => {
     const result = gendiff(file1, file2);
     expect(result.trim()).toEqual(expectedOutput.trim());
   });
+
+  test('Files with identical content', () => {
+    const file1 = path.resolve(__dirname, '../__fixtures__/file1.json');
+    const file2 = path.resolve(__dirname, '../__fixtures__/file1.json');
+    
+    const expected = '{}';
+    const result = gendiff(file1, file2);
+    expect(result.trim()).toEqual(expected.trim());
+  });
 });
