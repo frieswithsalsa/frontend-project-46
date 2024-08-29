@@ -29,7 +29,9 @@ const gendiff = (filepath1, filepath2) => {
     return `    ${key}: ${data1[key]}`;
   });
 
-  return `{\n${result.join('\n')}\n}`;
+  const noChanges = result.every(line => line.startsWith('    '));
+
+  return noChanges ? '{}' : `{\n${result.join('\n')}\n}`;
 };
 
 export default gendiff;

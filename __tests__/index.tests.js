@@ -15,7 +15,7 @@ const expectedOutput = `{
 }`;
 
 describe('gendiff', () => {
-  test('Correct two plain files comparison', () => {
+  test('Files with different content', () => {
     const file1 = path.resolve(__dirname, '../__fixtures__/file1.json');
     const file2 = path.resolve(__dirname, '../__fixtures__/file2.json');
 
