@@ -14,7 +14,7 @@ const expectedOutput = `{
   + verbose: true
 }`;
 
-describe('gendiff', () => {
+describe('gendiff JSON files', () => {
   test('Files with different content', () => {
     const file1 = path.resolve(__dirname, '../__fixtures__/file1.json');
     const file2 = path.resolve(__dirname, '../__fixtures__/file2.json');
@@ -26,6 +26,44 @@ describe('gendiff', () => {
   test('Files with identical content', () => {
     const file1 = path.resolve(__dirname, '../__fixtures__/file1.json');
     const file2 = path.resolve(__dirname, '../__fixtures__/file1.json');
+    
+    const expected = '{}';
+    const result = gendiff(file1, file2);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+});
+
+describe('gendiff YML files', () => {
+  test('Files with different content', () => {
+    const file1 = path.resolve(__dirname, '../__fixtures__/file1.yml');
+    const file2 = path.resolve(__dirname, '../__fixtures__/file2.yml');
+
+    const result = gendiff(file1, file2);
+    expect(result.trim()).toEqual(expectedOutput.trim());
+  });
+
+  test('Files with identical content', () => {
+    const file1 = path.resolve(__dirname, '../__fixtures__/file1.yml');
+    const file2 = path.resolve(__dirname, '../__fixtures__/file1.yml');
+    
+    const expected = '{}';
+    const result = gendiff(file1, file2);
+    expect(result.trim()).toEqual(expected.trim());
+  });
+});
+
+describe('gendiff YAML files', () => {
+  test('Files with different content', () => {
+    const file1 = path.resolve(__dirname, '../__fixtures__/file1.yaml');
+    const file2 = path.resolve(__dirname, '../__fixtures__/file2.yaml');
+
+    const result = gendiff(file1, file2);
+    expect(result.trim()).toEqual(expectedOutput.trim());
+  });
+
+  test('Files with identical content', () => {
+    const file1 = path.resolve(__dirname, '../__fixtures__/file1.yaml');
+    const file2 = path.resolve(__dirname, '../__fixtures__/file1.yaml');
     
     const expected = '{}';
     const result = gendiff(file1, file2);
