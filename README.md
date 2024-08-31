@@ -9,6 +9,6 @@
 [![asciicast](https://asciinema.org/a/94JvCjpMoy9N81DkBqHf8YKlL.svg)](https://asciinema.org/a/94JvCjpMoy9N81DkBqHf8YKlL)
 
 ## Сравнение плоских файлов (yaml/yml)
-[![asciicast](https://asciinema.org/a/vYmawlzxp1exj0R7bb6pcNXRH.svg)](https://asciinema.org/a/vYmawlzxp1exj0R7bb6pcNXRH)
+[![asciicast](https://asciinema.org/a/4hcTgfzRJdS9Kbv0qiiYvrTub.svg)](https://asciinema.org/a/4hcTgfzRJdS9Kbv0qiiYvrTub)
 
 
