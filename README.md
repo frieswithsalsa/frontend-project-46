@@ -5,5 +5,10 @@
 
 <a href="https://codeclimate.com/github/frieswithsalsa/frontend-project-46/test_coverage"><img src="https://api.codeclimate.com/v1/badges/5086bc2652ef34747678/test_coverage" /></a>
 
-## Сравнение плоских файлов
+## Сравнение плоских файлов (json)
 [![asciicast](https://asciinema.org/a/94JvCjpMoy9N81DkBqHf8YKlL.svg)](https://asciinema.org/a/94JvCjpMoy9N81DkBqHf8YKlL)
+
+## Сравнение плоских файлов (yaml/yml)
+[![asciicast](https://asciinema.org/a/vYmawlzxp1exj0R7bb6pcNXRH.svg)](https://asciinema.org/a/vYmawlzxp1exj0R7bb6pcNXRH)
+
+
