@@ -14,24 +14,39 @@ const gendiff = (filepath1, filepath2) => {
   const data1 = getData(fullFilePath1);
   const data2 = getData(fullFilePath2);
   
-  const keys = _.union(Object.keys(data1), Object.keys(data2)).sort();
+  const buildDiff = (obj1, obj2) => {
+    const keys = _.union(Object.keys(obj1), Object.keys(obj2)).sort();
 
-  const result = keys.flatMap((key) => {
-    if (!_.has(data2, key)) {
-      return `  - ${key}: ${data1[key]}`;
-    }
-    if (!_.has(data1, key)) {
-      return `  + ${key}: ${data2[key]}`;
-    }
-    if (data1[key] !== data2[key]) {
-      return `  - ${key}: ${data1[key]}\n  + ${key}: ${data2[key]}`;
-    }
-    return `    ${key}: ${data1[key]}`;
-  });
+    return keys.flatMap((key) => {
+      if (!_.has(obj2, key)) {
+        return `  - ${key}: ${formatValue(obj1[key])}`;
+      }
+      if (!_.has(obj1, key)) {
+        return `  + ${key}: ${formatValue(obj2[key])}`;
+      }
+      if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+        const nestedDiff = buildDiff(obj1[key], obj2[key]);
+        return `    ${key}: {\n${nestedDiff.join('\n')}\n    }`;
+      }
+      if (obj1[key] !== obj2[key]) {
+        return `  - ${key}: ${formatValue(obj1[key])}\n  + ${key}: ${formatValue(obj2[key])}`;
+      }
+      return `    ${key}: ${formatValue(obj1[key])}`;
+    });
+  };
 
-  const noChanges = result.every(line => line.startsWith('    '));
+  const formatValue = (value) => {
+    if (_.isObject(value)) {
+      const entries = Object.entries(value).map(([k, v]) => `    ${k}: ${formatValue(v)}`);
+      return `{\n${entries.join('\n')}\n  }`;
+    }
+    return value;
+  };
 
-  return noChanges ? '{}' : `{\n${result.join('\n')}\n}`;
+  const diff = buildDiff(data1, data2);
+  const noChanges = diff.every(line => line.startsWith('    '));
+
+  return noChanges ? '{}' : `{\n${diff.join('\n')}\n}`;
 };
 
 export default gendiff;
