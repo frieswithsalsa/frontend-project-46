@@ -11,4 +11,9 @@
 ## Сравнение плоских файлов (yaml/yml)
 [![asciicast](https://asciinema.org/a/4hcTgfzRJdS9Kbv0qiiYvrTub.svg)](https://asciinema.org/a/4hcTgfzRJdS9Kbv0qiiYvrTub)
 
+## Рекурсивное сравнение
+
+[![asciicast](https://asciinema.org/a/c2NeBA3dHxXN59KhU2fLmJa6L.svg)](https://asciinema.org/a/c2NeBA3dHxXN59KhU2fLmJa6L)
+
+
 
