@@ -30,7 +30,6 @@ const buildDiffTree = (obj1, obj2) => {
 
 const formatters = {
   stylish,
-  
 };
 
 const gendiff = (filepath1, filepath2, formatName = 'stylish') => {
@@ -44,7 +43,7 @@ const gendiff = (filepath1, filepath2, formatName = 'stylish') => {
   
   const formatter = formatters[formatName] || formatters.stylish;
   
-  return formatter(diffTree);
+  return _.isEqual(data1, data2) ? '{}' : formatter(diffTree);
 };
 
 export default gendiff;
