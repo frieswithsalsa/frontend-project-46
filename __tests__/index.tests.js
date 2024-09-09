@@ -2,6 +2,8 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
 import genDiff from '../src/index.js';
+import formatJson from '../src/formatters/json.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,4 +68,16 @@ test('JSON files stylish format', () => {
   console.log(result);
 
   expect(result).toBe(expected);
+});
+
+test('json format', () => {
+  const diff = [
+    { key: 'host', type: 'unchanged', value: 'hexlet.io' },
+    { key: 'timeout', type: 'changed', oldValue: 50, newValue: 20 },
+    { key: 'proxy', type: 'deleted', value: '123.234.53.22' },
+    { key: 'follow', type: 'added', value: false }
+  ];
+
+  const expected = JSON.stringify(diff, null, 2);
+  expect(formatJson(diff)).toBe(expected);
 });

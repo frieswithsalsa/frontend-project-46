@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const indent = (depth) => ' '.repeat(depth * 4);
 
 const stringify = (value, depth) => {

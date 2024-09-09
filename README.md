@@ -18,3 +18,8 @@
 ## Плосский формат
 
 [![asciicast](https://asciinema.org/a/yK3d9I66KAsHIaUUyVNRqj36V.svg)](https://asciinema.org/a/yK3d9I66KAsHIaUUyVNRqj36V)
+
+
+## JSON формат
+
+[![asciicast](https://asciinema.org/a/GrEtu0hbRR4yqFuVd6MgPIYj2.svg)](https://asciinema.org/a/GrEtu0hbRR4yqFuVd6MgPIYj2)
