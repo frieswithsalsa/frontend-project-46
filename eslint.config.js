@@ -1,5 +1,5 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
+import globals from 'globals';
+import pluginJs from '@eslint/js';
 
 export default [
   {
@@ -7,9 +7,9 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.jest,
-        ...globals.node
-      }
-    }
+        ...globals.node,
+      },
+    },
   },
   pluginJs.configs.recommended,
 ];
