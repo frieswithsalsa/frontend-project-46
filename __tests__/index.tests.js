@@ -1,108 +1,69 @@
-import path from 'path';
 import { fileURLToPath } from 'url';
-import gendiff from '../src/index.js';
+import path from 'path';
+import fs from 'fs';
+import genDiff from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const expectedOutput = `{
-    common: {
-      + follow: false
-        setting1: Value 1
-      - setting2: 200
-      - setting3: true
-      + setting3: null
-      + setting4: blah blah
-      + setting5: {
-            key5: value5
-        }
-        setting6: {
-            doge: {
-              - wow: 
-              + wow: so much
-            }
-            key: value
-          + ops: vops
-        }
-    }
-    group1: {
-      - baz: bas
-      + baz: bars
-        foo: bar
-      - nest: {
-            key: value
-        }
-      + nest: str
-    }
-  - group2: {
-        abc: 12345
-        deep: {
-            id: 45
-        }
-    }
-  + group3: {
-        deep: {
-            id: {
-                number: 45
-            }
-        }
-        fee: 100500
-    }
-}`;
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
-describe('gendiff JSON files', () => {
-  test('Files with different content', () => {
-    const file1 = path.resolve(__dirname, '../__fixtures__/file1.json');
-    const file2 = path.resolve(__dirname, '../__fixtures__/file2.json');
+describe('genDiff', () => {
+  test('JSON files stylish format', () => {
+    const filepath1 = getFixturePath('file1.json');
+    const filepath2 = getFixturePath('file2.json');
+    const expected = readFile('expected_stylish.txt').trim();
+    const result = genDiff(filepath1, filepath2).trim();
 
-    const result = gendiff(file1, file2);
-    expect(result.trim()).toEqual(expectedOutput.trim());
+    console.log('Expected:');
+    console.log(expected);
+    console.log('Result:');
+    console.log(result);
+    console.log('Difference:');
+    console.log(expected === result ? 'No difference' : 'Strings are different');
+
+    expect(result).toBe(expected);
   });
 
-  test('Files with identical content', () => {
-    const file1 = path.resolve(__dirname, '../__fixtures__/file1.json');
-    const file2 = path.resolve(__dirname, '../__fixtures__/file1.json');
-    
-    const expected = '{}';
-    const result = gendiff(file1, file2);
-    expect(result.trim()).toEqual(expected.trim());
+  test('JSON files plain format', () => {
+    const filepath1 = getFixturePath('file1.json');
+    const filepath2 = getFixturePath('file2.json');
+    const expected = readFile('expected_plain.txt').trim();
+    const result = genDiff(filepath1, filepath2, 'plain').trim();
+
+    expect(result).toBe(expected);
+  });
+
+  test('YML files stylish format', () => {
+    const filepath1 = getFixturePath('file1.yml');
+    const filepath2 = getFixturePath('file2.yml');
+    const expected = readFile('expected_stylish.txt').trim();
+    const result = genDiff(filepath1, filepath2).trim();
+
+    expect(result).toBe(expected);
+  });
+
+  test('YML files plain format', () => {
+    const filepath1 = getFixturePath('file1.yml');
+    const filepath2 = getFixturePath('file2.yml');
+    const expected = readFile('expected_plain.txt').trim();
+    const result = genDiff(filepath1, filepath2, 'plain').trim();
+
+    expect(result).toBe(expected);
   });
 });
 
-describe('gendiff YML files', () => {
-  test('Files with different content', () => {
-    const file1 = path.resolve(__dirname, '../__fixtures__/file1.yml');
-    const file2 = path.resolve(__dirname, '../__fixtures__/file2.yml');
+test('JSON files stylish format', () => {
+  const filepath1 = getFixturePath('file1.json');
+  const filepath2 = getFixturePath('file2.json');
+  const expected = readFile('expected_stylish.txt').trim();
+  const result = genDiff(filepath1, filepath2).trim();
 
-    const result = gendiff(file1, file2);
-    expect(result.trim()).toEqual(expectedOutput.trim());
-  });
+  console.log('Expected:');
+  console.log(expected);
+  console.log('Result:');
+  console.log(result);
 
-  test('Files with identical content', () => {
-    const file1 = path.resolve(__dirname, '../__fixtures__/file1.yml');
-    const file2 = path.resolve(__dirname, '../__fixtures__/file1.yml');
-    
-    const expected = '{}';
-    const result = gendiff(file1, file2);
-    expect(result.trim()).toEqual(expected.trim());
-  });
-});
-
-describe('gendiff YAML files', () => {
-  test('Files with different content', () => {
-    const file1 = path.resolve(__dirname, '../__fixtures__/file1.yaml');
-    const file2 = path.resolve(__dirname, '../__fixtures__/file2.yaml');
-
-    const result = gendiff(file1, file2);
-    expect(result.trim()).toEqual(expectedOutput.trim());
-  });
-
-  test('Files with identical content', () => {
-    const file1 = path.resolve(__dirname, '../__fixtures__/file1.yaml');
-    const file2 = path.resolve(__dirname, '../__fixtures__/file1.yaml');
-    
-    const expected = '{}';
-    const result = gendiff(file1, file2);
-    expect(result.trim()).toEqual(expected.trim());
-  });
+  expect(result).toBe(expected);
 });

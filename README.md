@@ -15,5 +15,6 @@
 
 [![asciicast](https://asciinema.org/a/c2NeBA3dHxXN59KhU2fLmJa6L.svg)](https://asciinema.org/a/c2NeBA3dHxXN59KhU2fLmJa6L)
 
+## Плосский формат
 
-
+[![asciicast](https://asciinema.org/a/yK3d9I66KAsHIaUUyVNRqj36V.svg)](https://asciinema.org/a/yK3d9I66KAsHIaUUyVNRqj36V)

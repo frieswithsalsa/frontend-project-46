@@ -3,7 +3,7 @@ import _ from 'lodash';
 const indent = (depth) => ' '.repeat(depth * 4);
 
 const stringify = (value, depth) => {
-  if (!_.isObject(value)) {
+  if (typeof value !== 'object' || value === null) {
     return String(value);
   }
 
