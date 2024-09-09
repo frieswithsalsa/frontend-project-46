@@ -5,6 +5,20 @@
 
 <a href="https://codeclimate.com/github/frieswithsalsa/frontend-project-46/test_coverage"><img src="https://api.codeclimate.com/v1/badges/5086bc2652ef34747678/test_coverage" /></a>
 
+<h1>Описание проекта</h1>
+
+<b>«Вычислитель отличий»</b> — Вычислитель отличий – программа, определяющая разницу между двумя структурами данных. Это популярная задача, для решения которой существует множество онлайн сервисов, например http://www.jsondiff.com/. Подобный механизм используется при выводе тестов или при автоматическом отслеживании изменений в конфигурационных файлах.
+
+<h1>Запуск</h2>
+
+Для запуска требуется <b>Node.js</b> версии <b>13.2.0</b> или выше.
+
+### Установка
+
+```
+npm ci
+```
+
 ## Сравнение плоских файлов (json)
 [![asciicast](https://asciinema.org/a/94JvCjpMoy9N81DkBqHf8YKlL.svg)](https://asciinema.org/a/94JvCjpMoy9N81DkBqHf8YKlL)
 
