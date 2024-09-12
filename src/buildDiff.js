@@ -1,6 +1,8 @@
+import _ from 'lodash';
+
 const buildDiff = (data1, data2) => {
   const keys = [...new Set([...Object.keys(data1), ...Object.keys(data2)])];
-  const sortedKeys = [...keys].sort((a, b) => a.localeCompare(b));
+  const sortedKeys = _.sortBy(keys);
 
   return sortedKeys.map((key) => {
     if (!Object.hasOwn(data1, key)) {
