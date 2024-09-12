@@ -10,7 +10,7 @@ const stringify = (value, depth) => {
   const currentIndent = indent(indentSize);
 
   const lines = Object.entries(value).map(
-    ([key, val]) => `${currentIndent}${key}: ${stringify(val, indentSize)}`
+    ([key, val]) => `${currentIndent}${key}: ${stringify(val, indentSize)}`,
   );
 
   return [

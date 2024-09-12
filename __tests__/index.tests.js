@@ -70,13 +70,11 @@ test('JSON files stylish format', () => {
 });
 
 test('json format', () => {
-  const diff = [
-    { key: 'host', type: 'unchanged', value: 'hexlet.io' },
-    { key: 'timeout', type: 'changed', oldValue: 50, newValue: 20 },
-    { key: 'proxy', type: 'deleted', value: '123.234.53.22' },
-    { key: 'follow', type: 'added', value: false },
-  ];
-
-  const expected = JSON.stringify(diff, null, 2);
-  expect(formatJson(diff)).toBe(expected);
+  const filepath1 = getFixturePath('file1.json');
+  const filepath2 = getFixturePath('file2.json');
+  const expected = readFile('result_json.txt');
+  const result = genDiff(filepath1, filepath2, 'json');
+  expect(JSON.parse(result)).toEqual(
+    JSON.parse(expected)
+  );
 });

@@ -24,9 +24,7 @@ const plain = (diff) => {
         case 'deleted':
           return `Property '${fullPath}' was removed`;
         case 'changed':
-          return `Property '${fullPath}' was updated. From ${stringify(
-            item.oldValue
-          )} to ${stringify(item.newValue)}`;
+          return `Property '${fullPath}' was updated. From ${stringify(item.oldValue)} to ${stringify(item.newValue)}`;
         case 'unchanged':
           return [];
         default:
