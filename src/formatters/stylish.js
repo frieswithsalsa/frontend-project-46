@@ -27,7 +27,7 @@ const stylish = (diff) => {
     const currentIndent = indent(indentSize);
     const lines = node.map(({
       key,
-      type, 
+      type,
       value, 
       oldValue, 
       newValue, 
