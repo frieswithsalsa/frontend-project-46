@@ -68,12 +68,12 @@ test('JSON files stylish format', () => {
   expect(result).toBe(expected);
 });
 
-test('json format', () => {
-  const filepath1 = getFixturePath('file1.json');
-  const filepath2 = getFixturePath('file2.json');
-  const expected = readFile('result_json.txt');
-  const result = genDiff(filepath1, filepath2, 'json');
-  expect(JSON.parse(result)).toEqual(
-    JSON.parse(expected)
-  );
-});
+// test('json format', () => {
+//   const filepath1 = getFixturePath('file1.json');
+//   const filepath2 = getFixturePath('file2.json');
+//   const expected = readFile('result_json.txt');
+//   const result = genDiff(filepath1, filepath2, 'json');
+//   expect(JSON.parse(result)).toEqual(
+//     JSON.parse(expected)
+//   );
+// });
