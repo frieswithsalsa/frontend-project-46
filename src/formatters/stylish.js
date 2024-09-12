@@ -28,10 +28,10 @@ const stylish = (diff) => {
     const lines = node.map(({
       key,
       type,
-      value, 
-      oldValue, 
-      newValue, 
-      children, 
+      value,
+      oldValue,
+      newValue,
+      children,
     }) => {
       switch (type) {
         case 'nested':
