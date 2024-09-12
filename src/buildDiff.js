@@ -11,8 +11,8 @@ const buildDiff = (data1, data2) => {
     if (!Object.hasOwn(data2, key)) {
       return { key, type: 'deleted', value: data1[key] };
     }
-    if (typeof data1[key] === 'object' && data1[key] !== null &&
-        typeof data2[key] === 'object' && data2[key] !== null) {
+    if (typeof data1[key] === 'object' && data1[key] !== null
+        && typeof data2[key] === 'object' && data2[key] !== null) {
       return { key, type: 'nested', children: buildDiff(data1[key], data2[key]) };
     }
     if (data1[key] !== data2[key]) {

@@ -21,25 +21,32 @@ const stringify = (value, depth) => {
 };
 
 const stylish = (diff) => {
-  const iter = (node, depth = 0) => {
-    const indentSize = depth + 1;
-    const bracketIndent = indent(depth);
+  const iter = (node, depth = 1) => {
+    const indentSize = depth;
+    const bracketIndent = indent(depth - 1);
     const currentIndent = indent(indentSize);
-    const lines = node.map(({ key, type, value, oldValue, newValue, children }) => {
+    const lines = node.map(({
+      key,
+      type,
+      value,
+      oldValue,
+      newValue,
+      children,
+    }) => {
       switch (type) {
         case 'nested':
-          return `${currentIndent}${key}: ${iter(children, indentSize)}`;
+          return `${currentIndent}  ${key}: ${iter(children, indentSize + 1)}`;
         case 'unchanged':
-          return `${currentIndent}${key}: ${stringify(value, indentSize)}`;
+          return `${currentIndent}  ${key}: ${stringify(value, indentSize)}`;
         case 'changed':
           return [
-            `${currentIndent.slice(2)}- ${key}: ${stringify(oldValue, indentSize)}`,
-            `${currentIndent.slice(2)}+ ${key}: ${stringify(newValue, indentSize)}`,
+            `${currentIndent}- ${key}: ${stringify(oldValue, indentSize)}`,
+            `${currentIndent}+ ${key}: ${stringify(newValue, indentSize)}`,
           ].join('\n');
         case 'added':
-          return `${currentIndent.slice(2)}+ ${key}: ${stringify(value, indentSize)}`;
+          return `${currentIndent}+ ${key}: ${stringify(value, indentSize)}`;
         case 'deleted':
-          return `${currentIndent.slice(2)}- ${key}: ${stringify(value, indentSize)}`;
+          return `${currentIndent}- ${key}: ${stringify(value, indentSize)}`;
         default:
           throw new Error(`Неизвестный тип узла: ${type}`);
       }
