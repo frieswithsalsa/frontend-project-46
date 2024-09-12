@@ -4,12 +4,13 @@ import fs from 'fs';
 import genDiff from '../src/index.js';
 import formatJson from '../src/formatters/json.js';
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
+const getFixturePath = (filename) =>
+  path.join(__dirname, '..', '__fixtures__', filename);
+const readFile = (filename) =>
+  fs.readFileSync(getFixturePath(filename), 'utf-8');
 
 describe('genDiff', () => {
   test('JSON files stylish format', () => {
@@ -23,7 +24,9 @@ describe('genDiff', () => {
     console.log('Result:');
     console.log(result);
     console.log('Difference:');
-    console.log(expected === result ? 'No difference' : 'Strings are different');
+    console.log(
+      expected === result ? 'No difference' : 'Strings are different'
+    );
 
     expect(result).toBe(expected);
   });
@@ -75,7 +78,7 @@ test('json format', () => {
     { key: 'host', type: 'unchanged', value: 'hexlet.io' },
     { key: 'timeout', type: 'changed', oldValue: 50, newValue: 20 },
     { key: 'proxy', type: 'deleted', value: '123.234.53.22' },
-    { key: 'follow', type: 'added', value: false }
+    { key: 'follow', type: 'added', value: false },
   ];
 
   const expected = JSON.stringify(diff, null, 2);
