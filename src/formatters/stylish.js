@@ -25,7 +25,14 @@ const stylish = (diff) => {
     const indentSize = depth + 1;
     const bracketIndent = indent(depth);
     const currentIndent = indent(indentSize);
-    const lines = node.map(({ key, type, value, oldValue, newValue, children }) => {
+    const lines = node.map(({ 
+      key, 
+      type, 
+      value, 
+      oldValue, 
+      newValue, 
+      children, 
+    }) => {
       switch (type) {
         case 'nested':
           return `${currentIndent}${key}: ${iter(children, indentSize)}`;
