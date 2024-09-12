@@ -19,7 +19,7 @@ const plain = (diff) => {
           return iter(item.children, newPath);
         case 'added':
           return `Property '${fullPath}' was added with value: ${stringify(
-            item.value
+            item.value,
           )}`;
         case 'deleted':
           return `Property '${fullPath}' was removed`;

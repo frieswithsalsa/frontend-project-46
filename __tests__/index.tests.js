@@ -67,5 +67,3 @@ test('JSON files stylish format', () => {
 
   expect(result).toBe(expected);
 });
-
-
