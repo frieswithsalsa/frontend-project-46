@@ -16,13 +16,6 @@ describe('genDiff', () => {
     const expected = readFile('expected_stylish.txt').trim();
     const result = genDiff(filepath1, filepath2).trim();
 
-    console.log('Expected:');
-    console.log(expected);
-    console.log('Result:');
-    console.log(result);
-    console.log('Difference:');
-    console.log(expected === result ? 'No difference' : 'Strings are different');
-
     expect(result).toBe(expected);
   });
 
