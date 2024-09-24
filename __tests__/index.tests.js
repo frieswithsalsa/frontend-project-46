@@ -59,11 +59,5 @@ test('JSON files stylish format', () => {
   const filepath2 = getFixturePath('file2.json');
   const expected = readFile('expected_stylish.txt').trim();
   const result = genDiff(filepath1, filepath2).trim();
-
-  console.log('Expected:');
-  console.log(expected);
-  console.log('Result:');
-  console.log(result);
-
   expect(result).toBe(expected);
 });
