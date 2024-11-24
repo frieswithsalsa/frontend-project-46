@@ -43,4 +43,3 @@ describe('genDiff', () => {
     expect(result).toBe(expected);
   });
 });
-
