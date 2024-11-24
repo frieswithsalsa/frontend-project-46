@@ -1,55 +1,41 @@
 import _ from 'lodash';
 
-const indent = ' ';
-const indentSize = 4;
-const currentIndent = (depth) => indent.repeat(indentSize * depth - 2);
-const braceIndent = (depth) => indent.repeat(indentSize * depth - indentSize);
+const space = '    ';
 
-const joinStrings = (lines, depth) => [
-  '{',
-  ...lines,
-  `${braceIndent(depth)}}`,
-].join('\n');
+const calcIndent = (depth) => space.repeat(depth);
 
-const stringify = (data, depth) => {
-  if ((!_.isObject(data)) || (data === null)) {
-    return String(data);
+const stringify = (item, depth) => {
+  if (!_.isPlainObject(item)) {
+    return `${item}`;
   }
-  const keys = _.keys(data);
-  const lines = keys.map((key) => `${currentIndent(depth)}  ${key}: ${stringify(data[key], depth + 1)}`);
-  return joinStrings(lines, depth);
+  const children = Object.keys(item);
+  const string = children.map((key) => `\n${calcIndent(depth + 1)}${key}: ${stringify(item[key], depth + 1)}`).join('');
+  return `{${string}\n${calcIndent(depth)}}`;
 };
 
-const makeStylishDiff = (tree) => {
-  const iter = (node, depth) => {
-    switch (node.type) {
-      case 'root': {
-        const result = node.children.flatMap((child) => iter(child, depth));
-        return joinStrings(result, depth);
-      }
-      case 'nested': {
-        const childrenToString = node.children.flatMap((child) => iter(child, depth + 1));
-        return `${currentIndent(depth)}  ${node.key}: ${joinStrings(childrenToString, depth + 1)}`;
-      }
-      case 'added': {
-        return `${currentIndent(depth)}+ ${node.key}: ${stringify(node.value, depth + 1)}`;
-      }
-      case 'removed': {
-        return `${currentIndent(depth)}- ${node.key}: ${stringify(node.value, depth + 1)}`;
-      }
-      case 'changed': {
-        return [`${currentIndent(depth)}- ${node.key}: ${stringify(node.value, depth + 1)}`,
-          `${currentIndent(depth)}+ ${node.key}: ${stringify(node.value2, depth + 1)}`];
-      }
-      case 'unchanged': {
-        return `${currentIndent(depth)}  ${node.key}: ${stringify(node.value, depth + 1)}`;
-      }
-      default: {
-        throw Error('Uncorrect data');
-      }
-    }
-  };
-  return iter(tree, 1);
+const iter = (item, depth = 1) => {
+  const indent = calcIndent(depth).slice(0, -2);
+  if (item.type === 'added') {
+    return `${indent}+ ${item.key}: ${stringify(item.value, depth)}`;
+  }
+  if (item.type === 'deleted') {
+    return `${indent}- ${item.key}: ${stringify(item.value, depth)}`;
+  }
+  if (item.type === 'changed') {
+    return `${indent}- ${item.key}: ${stringify(item.value1, depth)}\n${indent}+ ${item.key}: ${stringify(item.value2, depth)}`;
+  }
+  if (item.type === 'unchanged') {
+    return `${indent}  ${item.key}: ${stringify(item.value, depth)}`;
+  }
+  const begin = `${indent}  ${item.key}: {`;
+  const node = `\n${item.children.map((key) => iter(key, depth + 1)).join('\n')}\n`;
+  const end = `${indent}  }`;
+  return begin + node + end;
 };
 
-export default makeStylishDiff;
+const fortamStylish = (diff) => {
+  const result = `{\n${diff.map((key) => iter(key)).join('\n')}\n}`;
+  return result;
+};
+
+export default fortamStylish;

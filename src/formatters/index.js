@@ -1,15 +1,21 @@
-import makePlain from './plain.js';
-import makeStylish from './stylish.js';
+import fortamStylish from './stylish.js';
+import formatPlain from './plain.js';
 
-export default function formatter(tree, format) {
-  switch (format) {
-    case 'stylish':
-      return makeStylish(tree);
-    case 'plain':
-      return makePlain(tree);
-    case 'json':
-      return JSON.stringify(tree);
-    default:
-      throw new Error('введите формат');
+const getFormatter = (nameFormat) => {
+  if (nameFormat === 'stylish') {
+    return fortamStylish;
   }
-}
+  if (nameFormat === 'plain') {
+    return formatPlain;
+  }
+  if (nameFormat === 'json') {
+    return JSON.stringify;
+  }
+  throw new Error('Unknown format');
+};
+
+const buildDiff = (diff, format = 'stylish') => {
+  const formatter = getFormatter(format);
+  return formatter(diff);
+};
+export default buildDiff;
