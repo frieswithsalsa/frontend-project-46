@@ -1,19 +1,15 @@
-import stylish from './stylish.js';
-import plain from './plain.js';
-import json from './json.js';
+import makePlain from './plain.js';
+import makeStylish from './stylish.js';
 
-const formatters = {
-  stylish,
-  plain,
-  json,
-};
-
-const format = (diff, formatName = 'stylish') => {
-  const formatter = formatters[formatName];
-  if (!formatter) {
-    throw new Error(`Неподдерживаемый формат: ${formatName}`);
+export default function formatter(tree, format) {
+  switch (format) {
+    case 'stylish':
+      return makeStylish(tree);
+    case 'plain':
+      return makePlain(tree);
+    case 'json':
+      return JSON.stringify(tree);
+    default:
+      throw new Error('введите формат');
   }
-  return formatter(diff);
-};
-
-export default format;
+}

@@ -1,39 +1,49 @@
 ### Hexlet tests and linter status:
-[![Actions Status](https://github.com/frieswithsalsa/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/frieswithsalsa/frontend-project-46/actions)
+[![Actions Status](https://github.com/Abikimoz/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/Abikimoz/frontend-project-46/actions)
+[![Node CI](https://github.com/Abikimoz/frontend-project-46/workflows/Node%20CI/badge.svg)](https://github.com/Abikimoz/frontend-project-46/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2dbd5d592a5aaf01a986/maintainability)](https://codeclimate.com/github/Abikimoz/frontend-project-46/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/2dbd5d592a5aaf01a986/test_coverage)](https://codeclimate.com/github/Abikimoz/frontend-project-46/test_coverage)
 
-<a href="https://codeclimate.com/github/frieswithsalsa/frontend-project-46/maintainability"><img src="https://api.codeclimate.com/v1/badges/5086bc2652ef34747678/maintainability" /></a>
+# Вычислитель отличий
 
-<a href="https://codeclimate.com/github/frieswithsalsa/frontend-project-46/test_coverage"><img src="https://api.codeclimate.com/v1/badges/5086bc2652ef34747678/test_coverage" /></a>
+Консольная утилита для сравнения двух объектов. Объекты считываются только из файлов форматов JSON, YML и YAML.
 
-<h1>Описание проекта</h1>
+# Примеры работы
 
-<b>«Вычислитель отличий»</b> — Вычислитель отличий – программа, определяющая разницу между двумя структурами данных. Это популярная задача, для решения которой существует множество онлайн сервисов, например http://www.jsondiff.com/. Подобный механизм используется при выводе тестов или при автоматическом отслеживании изменений в конфигурационных файлах.
+<a href="https://asciinema.org/a/AbMZvGEZ8W0wX6aLR6jKorgL1" target="_blank"><img src="https://asciinema.org/a/AbMZvGEZ8W0wX6aLR6jKorgL1.svg" /></a>
 
-<h1>Запуск</h2>
+<a href="https://asciinema.org/a/VWQBROCZSaYZN11RgoihpuPS9" target="_blank"><img src="https://asciinema.org/a/VWQBROCZSaYZN11RgoihpuPS9.svg" /></a>
 
-Для запуска требуется <b>Node.js</b> версии <b>13.2.0</b> или выше.
+<a href="https://asciinema.org/a/YY9AR6MyApvPevRX8o9v9roj9" target="_blank"><img src="https://asciinema.org/a/YY9AR6MyApvPevRX8o9v9roj9.svg" /></a>
 
-### Установка
+<a href="https://asciinema.org/a/3uyBootLJ0zl3n90TUf0X2BQB" target="_blank"><img src="https://asciinema.org/a/3uyBootLJ0zl3n90TUf0X2BQB.svg" /></a>
 
+<a href="https://asciinema.org/a/yXR4H7lXAM8G5rOWTXPYEWwOA" target="_blank"><img src="https://asciinema.org/a/yXR4H7lXAM8G5rOWTXPYEWwOA.svg" /></a>
+
+# Установка
+
+```bash
+git clone git@github.com:Abikimoz/frontend-project-46.git
+cd frontend-project-46
+make install
 ```
-npm ci
+
+# Использование
+
+```bash
+gendiff [options] <filepath1> <filepath2>
+например: gendiff -f plain file1.json file2.yaml
 ```
 
-## Сравнение плоских файлов (json)
-[![asciicast](https://asciinema.org/a/94JvCjpMoy9N81DkBqHf8YKlL.svg)](https://asciinema.org/a/94JvCjpMoy9N81DkBqHf8YKlL)
+```bash
+options:
+  -V, --version        output the version number
+  -f, --format [type]  output format (default: "stylish")
+  -h, --help           display help for command
+```
 
-## Сравнение плоских файлов (yaml/yml)
-[![asciicast](https://asciinema.org/a/4hcTgfzRJdS9Kbv0qiiYvrTub.svg)](https://asciinema.org/a/4hcTgfzRJdS9Kbv0qiiYvrTub)
+Программа умеет выводить различия в трех форматах, по умолчанию это формат stylish. Также это могут быть plain и json. Для вывода результата согласно определенному формату введите -f [format]
 
-## Рекурсивное сравнение
-
-[![asciicast](https://asciinema.org/a/c2NeBA3dHxXN59KhU2fLmJa6L.svg)](https://asciinema.org/a/c2NeBA3dHxXN59KhU2fLmJa6L)
-
-## Плосский формат
-
-[![asciicast](https://asciinema.org/a/yK3d9I66KAsHIaUUyVNRqj36V.svg)](https://asciinema.org/a/yK3d9I66KAsHIaUUyVNRqj36V)
-
-
-## JSON формат
-
-[![asciicast](https://asciinema.org/a/GrEtu0hbRR4yqFuVd6MgPIYj2.svg)](https://asciinema.org/a/GrEtu0hbRR4yqFuVd6MgPIYj2)
+```bash
+gendiff -f plain file1.json file2.yaml
+```

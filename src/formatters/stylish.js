@@ -1,65 +1,55 @@
-const indent = (depth, spacesCount = 4) => ' '.repeat(depth * spacesCount);
+import _ from 'lodash';
 
-const stringify = (value, depth) => {
-  if (typeof value !== 'object' || value === null) {
-    return String(value);
+const indent = ' ';
+const indentSize = 4;
+const currentIndent = (depth) => indent.repeat(indentSize * depth - 2);
+const braceIndent = (depth) => indent.repeat(indentSize * depth - indentSize);
+
+const joinStrings = (lines, depth) => [
+  '{',
+  ...lines,
+  `${braceIndent(depth)}}`,
+].join('\n');
+
+const stringify = (data, depth) => {
+  if ((!_.isObject(data)) || (data === null)) {
+    return String(data);
   }
-
-  const indentSize = depth + 1;
-  const bracketIndent = indent(depth);
-  const currentIndent = indent(indentSize);
-
-  const lines = Object.entries(value).map(
-    ([key, val]) => `${currentIndent}${key}: ${stringify(val, indentSize)}`,
-  );
-
-  return [
-    '{',
-    ...lines,
-    `${bracketIndent}}`,
-  ].join('\n');
+  const keys = _.keys(data);
+  const lines = keys.map((key) => `${currentIndent(depth)}  ${key}: ${stringify(data[key], depth + 1)}`);
+  return joinStrings(lines, depth);
 };
 
-const stylish = (diff) => {
-  const iter = (node, depth = 0) => {
-    const indentSize = depth + 1;
-    const bracketIndent = indent(depth);
-    const currentIndent = indent(indentSize);
-    const lines = node.map(({
-      key,
-      type,
-      value,
-      oldValue,
-      newValue,
-      children,
-    }) => {
-      switch (type) {
-        case 'nested':
-          return `${currentIndent}${key}: ${iter(children, indentSize)}`;
-        case 'unchanged':
-          return `${currentIndent}${key}: ${stringify(value, indentSize)}`;
-        case 'changed':
-          return [
-            `${currentIndent.slice(2)}- ${key}: ${stringify(oldValue, indentSize)}`,
-            `${currentIndent.slice(2)}+ ${key}: ${stringify(newValue, indentSize)}`,
-          ].join('\n');
-        case 'added':
-          return `${currentIndent.slice(2)}+ ${key}: ${stringify(value, indentSize)}`;
-        case 'deleted':
-          return `${currentIndent.slice(2)}- ${key}: ${stringify(value, indentSize)}`;
-        default:
-          throw new Error(`Неизвестный тип узла: ${type}`);
+const makeStylishDiff = (tree) => {
+  const iter = (node, depth) => {
+    switch (node.type) {
+      case 'root': {
+        const result = node.children.flatMap((child) => iter(child, depth));
+        return joinStrings(result, depth);
       }
-    });
-
-    return [
-      '{',
-      ...lines,
-      `${bracketIndent}}`,
-    ].join('\n');
+      case 'nested': {
+        const childrenToString = node.children.flatMap((child) => iter(child, depth + 1));
+        return `${currentIndent(depth)}  ${node.key}: ${joinStrings(childrenToString, depth + 1)}`;
+      }
+      case 'added': {
+        return `${currentIndent(depth)}+ ${node.key}: ${stringify(node.value, depth + 1)}`;
+      }
+      case 'removed': {
+        return `${currentIndent(depth)}- ${node.key}: ${stringify(node.value, depth + 1)}`;
+      }
+      case 'changed': {
+        return [`${currentIndent(depth)}- ${node.key}: ${stringify(node.value, depth + 1)}`,
+          `${currentIndent(depth)}+ ${node.key}: ${stringify(node.value2, depth + 1)}`];
+      }
+      case 'unchanged': {
+        return `${currentIndent(depth)}  ${node.key}: ${stringify(node.value, depth + 1)}`;
+      }
+      default: {
+        throw Error('Uncorrect data');
+      }
+    }
   };
-
-  return iter(diff);
+  return iter(tree, 1);
 };
 
-export default stylish;
+export default makeStylishDiff;

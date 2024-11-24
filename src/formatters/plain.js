@@ -1,41 +1,51 @@
-const stringify = (value) => {
-  if (typeof value === 'object' && value !== null) {
-    return '[complex value]';
+import _ from 'lodash';
+
+const getPath = (nodeNames) => nodeNames.flat().join('.');
+
+const checkVal = (value) => {
+  switch (typeof value) {
+    case 'object': {
+      return !value ? 'null' : '[complex value]';
+    }
+    case 'string': {
+      return `'${value}'`;
+    }
+    default: {
+      return `${value}`;
+    }
   }
-  if (typeof value === 'string') {
-    return `'${value}'`;
-  }
-  return String(value);
 };
 
-const plain = (diff) => {
-  const iter = (node, path = []) => {
-    const lines = node.flatMap((item) => {
-      const newPath = [...path, item.key];
-      const fullPath = newPath.join('.');
-
-      switch (item.type) {
-        case 'nested':
-          return iter(item.children, newPath);
-        case 'added':
-          return `Property '${fullPath}' was added with value: ${stringify(
-            item.value,
-          )}`;
-        case 'deleted':
-          return `Property '${fullPath}' was removed`;
-        case 'changed':
-          return `Property '${fullPath}' was updated. From ${stringify(item.oldValue)} to ${stringify(item.newValue)}`;
-        case 'unchanged':
-          return [];
-        default:
-          throw new Error(`Unknown type: ${item.type}`);
+export function makePlainDiff(tree) {
+  const iter = (node, path) => node.map((child) => {
+    const currentPath = getPath([path, child.key]);
+    switch (child.type) {
+      case 'nested': {
+        return iter(child.children, currentPath);
       }
-    });
+      case 'added': {
+        return `Property '${currentPath}' was added with value: ${checkVal(child.value)}`;
+      }
+      case 'removed': {
+        return `Property '${currentPath}' was removed`;
+      }
+      case 'changed': {
+        return `Property '${currentPath}' was updated. From ${checkVal(child.value)} to ${checkVal(child.value2)}`;
+      }
+      case 'unchanged': {
+        return null;
+      }
+      default: {
+        throw Error('Uncorrect data');
+      }
+    }
+  });
+  return iter(tree.children, []);
+}
 
-    return lines.join('\n');
-  };
-
-  return iter(diff);
-};
-
-export default plain;
+export default function makePlain(data) {
+  const result = makePlainDiff(data);
+  const flatten = _.flattenDeep(result);
+  const filtered = flatten.filter((el) => el);
+  return filtered.join('\n');
+}
