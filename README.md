@@ -5,6 +5,8 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f9b20adb9e9431df6437/test_coverage)](https://codeclimate.com/github/frieswithsalsa/frontend-project-46/test_coverage)
 
+![Lint and Test](https://github.com/frieswithsalsa/frontend-project-46/actions/workflows/lint.yml/badge.svg)
+
 ## Примеры работы:
 
 ### Сравнение плоских файлов:
