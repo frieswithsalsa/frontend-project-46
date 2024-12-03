@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "bin": {
-    "gendiff": "./gendiff.js"
+    "gendiff": "bin/gendiff.js"
   },
   "description": "[![Actions Status](https://github.com/frieswithsalsa/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/frieswithsalsa/frontend-project-46/actions)",
   "main": "gendiff.js",
@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^12.1.0"
+    "commander": "^12.1.0",
+    "lodash": "^4.17.21"
   }
 }
