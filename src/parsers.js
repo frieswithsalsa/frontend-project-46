@@ -1,5 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import process from 'process';
 
 const parseFile = (filePath) => {
     const resolvedPath = path.resolve(process.cwd(), filePath);
@@ -7,4 +8,4 @@ const parseFile = (filePath) => {
     return JSON.parse(fileContent)
 }
 
-module.exports = parseFile;
+export default parseFile;

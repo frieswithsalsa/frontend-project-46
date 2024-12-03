@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-const genDiff = require('../src/index.js');
-const parseFile = require('../src/parsers.js');
-const { Command } = require('commander');
+import genDiff from '../src/index.js';
+import parseFile from '../src/parsers.js';
+import { Command } from 'commander';
 const program = new Command();
-
+import process from 'process';
 
 program
     .description('Compares two configuration files and shows a difference.')
@@ -16,9 +16,10 @@ program
             const file2Data = parseFile(filepath2);
             const diff = genDiff(file1Data, file2Data)
             console.log(diff)
-    } catch (error) {
-      console.error(error.message);  
-    }
-  });
+        } catch (error) {
+            console.error(error.message);  
+        }
+    });
 
 program.parse(process.argv);
+;

@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 const genDiff = (data1, data2) => {
     const allKeys = _.sortBy(_.union(Object.keys(data1), Object.keys(data2)));
@@ -19,4 +19,4 @@ const genDiff = (data1, data2) => {
     return `{\n${lines.join('\n')}\n}`
 };
 
-module.exports = genDiff;
+export default genDiff;
