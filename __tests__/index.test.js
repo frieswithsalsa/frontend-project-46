@@ -6,26 +6,37 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Вспомогательная функция для построения пути к файлам фикстур
+const getFixturePath = (filename) => path.join(__dirname, '../__fixtures__', filename);
+
+// Вспомогательная функция для чтения данных из файла
+const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
+
 describe('genDiff', () => {
   it('should correctly compare two JSON files', () => {
-    const filePath1 = path.join(__dirname, '../__fixtures__/file1.json');
-    const filePath2 = path.join(__dirname, '../__fixtures__/file2.json');
+    const filePath1 = getFixturePath('file1.json');
+    const filePath2 = getFixturePath('file2.json');
+    const expectedDiff = readFile('expected_flat.txt');
 
-    const data1 = JSON.parse(fs.readFileSync(filePath1, 'utf-8'));
-    const data2 = JSON.parse(fs.readFileSync(filePath2, 'utf-8'));
+    const diff = genDiff(filePath1, filePath2);
+    expect(diff).toBe(expectedDiff);
+  });
 
-    const diff = genDiff(data1, data2);
+  it('should correctly compare two YAML files', () => {
+    const filePath1 = getFixturePath('file1.yml');
+    const filePath2 = getFixturePath('file2.yml');
+    const expectedDiff = readFile('expected_flat.txt');
 
-    const expectedDiff = `{
- - follow: false
-   host: hexlet.io;
- - proxy: 123.234.53.22
- - timeout: 50
- + timeout: 20
- + verbose: true
-}`;
+    const diff = genDiff(filePath1, filePath2);
+    expect(diff).toBe(expectedDiff);
+  });
 
-    // Проверяем, что результат соответствует ожидаемому
+  it('should correctly compare JSON and YAML files', () => {
+    const filePath1 = getFixturePath('file1.json');
+    const filePath2 = getFixturePath('file2.yml');
+    const expectedDiff = readFile('expected_flat.txt');
+
+    const diff = genDiff(filePath1, filePath2);
     expect(diff).toBe(expectedDiff);
   });
 });

@@ -45,6 +45,8 @@ gendiff filepath1.json filepath2.json
 
 ## Примеры работы:
 
-### Сравнение плоских файлов:
+### Сравнение плоских файлов (JSON):
 [![asciicast](https://asciinema.org/a/MgcYt10Q84drXxDSIWOcc4sGf.svg)](https://asciinema.org/a/MgcYt10Q84drXxDSIWOcc4sGf)
+### Сравнение плоских файлов (YML):
+[![asciicast](https://asciinema.org/a/ta0JlInHEbMbqL9nWAl1CpYoZ.svg)](https://asciinema.org/a/ta0JlInHEbMbqL9nWAl1CpYoZ)
 

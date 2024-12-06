@@ -1,22 +1,26 @@
 import _ from 'lodash';
+import parseFile from './parsers.js';
 
-const genDiff = (data1, data2) => {
-    const allKeys = _.sortBy(_.union(Object.keys(data1), Object.keys(data2)));
+const genDiff = (filePath1, filePath2) => {
+  const data1 = parseFile(filePath1);
+  const data2 = parseFile(filePath2);
 
-    const lines = allKeys.map((key) => {
-        if (!_.has(data2, key)) {
-            return ` - ${key}: ${data1[key]}`
-        }
-        if (!_.has(data1, key)) {
-            return ` + ${key}: ${data2[key]}`
-        }
-        if (data1[key] !== data2[key]) {
-            return ` - ${key}: ${data1[key]}\n + ${key}: ${data2[key]}`
-        }
-        return `   ${key}: ${data1[key]};`
-    })
+  const keys = _.union(Object.keys(data1), Object.keys(data2)).sort();
 
-    return `{\n${lines.join('\n')}\n}`
+  const result = keys.map((key) => {
+    if (!_.has(data2, key)) {
+      return `  - ${key}: ${data1[key]}`;
+    }
+    if (!_.has(data1, key)) {
+      return `  + ${key}: ${data2[key]}`;
+    }
+    if (_.isEqual(data1[key], data2[key])) {
+      return `    ${key}: ${data1[key]}`;
+    }
+    return `  - ${key}: ${data1[key]}\n  + ${key}: ${data2[key]}`;
+  });
+
+  return `{\n${result.join('\n')}\n}`;
 };
 
 export default genDiff;
