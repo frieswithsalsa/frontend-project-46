@@ -51,4 +51,7 @@ gendiff filepath1.json filepath2.json
 [![asciicast](https://asciinema.org/a/ta0JlInHEbMbqL9nWAl1CpYoZ.svg)](https://asciinema.org/a/ta0JlInHEbMbqL9nWAl1CpYoZ)
 ### Рекурсивное сравнение:
 [![asciicast](https://asciinema.org/a/IJJDQyAJXyJ0Zk3YIjClRpd3A.svg)](https://asciinema.org/a/IJJDQyAJXyJ0Zk3YIjClRpd3A)
-
+### Плоский формат:
+[![asciicast](https://asciinema.org/a/keOqpXivRfKBUC7M2KaoWUo2V.svg)](https://asciinema.org/a/keOqpXivRfKBUC7M2KaoWUo2V)
+### JSON формат:
+[![asciicast](https://asciinema.org/a/iFsya8IIPgffxE6LBrYZ4l6nQ.svg)](https://asciinema.org/a/iFsya8IIPgffxE6LBrYZ4l6nQ)
