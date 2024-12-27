@@ -1,26 +1,24 @@
-import _ from 'lodash';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import { cwd } from 'process';
 import parseFile from './parsers.js';
+import buildDiff from './buildDiff.js';
+import formatter from './formatters/index.js';
 
-const genDiff = (filePath1, filePath2) => {
-  const data1 = parseFile(filePath1);
-  const data2 = parseFile(filePath2);
+const readfile = (filepath) => {
+  const currentDir = cwd();
+  const absolutePath = resolve(currentDir, filepath);
+  const content = readFileSync(absolutePath, 'utf-8');
+  return content;
+};
 
-  const keys = _.union(Object.keys(data1), Object.keys(data2)).sort();
+const getExtension = (file) => file.split('.')[1];
 
-  const result = keys.map((key) => {
-    if (!_.has(data2, key)) {
-      return `  - ${key}: ${data1[key]}`;
-    }
-    if (!_.has(data1, key)) {
-      return `  + ${key}: ${data2[key]}`;
-    }
-    if (_.isEqual(data1[key], data2[key])) {
-      return `    ${key}: ${data1[key]}`;
-    }
-    return `  - ${key}: ${data1[key]}\n  + ${key}: ${data2[key]}`;
-  });
-
-  return `{\n${result.join('\n')}\n}`;
+const genDiff = (filepath1, filepath2, format = 'stylish') => {
+  const file1 = parseFile(getExtension(filepath1), readfile(filepath1));
+  const file2 = parseFile(getExtension(filepath2), readfile(filepath2));
+  const diffTree = buildDiff(file1, file2);
+  return formatter(diffTree, format);
 };
 
 export default genDiff;

@@ -49,4 +49,6 @@ gendiff filepath1.json filepath2.json
 [![asciicast](https://asciinema.org/a/MgcYt10Q84drXxDSIWOcc4sGf.svg)](https://asciinema.org/a/MgcYt10Q84drXxDSIWOcc4sGf)
 ### Сравнение плоских файлов (YML):
 [![asciicast](https://asciinema.org/a/ta0JlInHEbMbqL9nWAl1CpYoZ.svg)](https://asciinema.org/a/ta0JlInHEbMbqL9nWAl1CpYoZ)
+### Рекурсивное сравнение:
+[![asciicast](https://asciinema.org/a/IJJDQyAJXyJ0Zk3YIjClRpd3A.svg)](https://asciinema.org/a/IJJDQyAJXyJ0Zk3YIjClRpd3A)
 

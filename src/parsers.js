@@ -1,20 +1,15 @@
-import fs from 'fs';
-import path from 'path';
 import yaml from 'js-yaml';
 
-const parseFile = (filePath) => {
-  const resolvedPath = path.resolve(filePath);
-  const fileContent = fs.readFileSync(resolvedPath, 'utf-8');
-
-  const fileExtension = path.extname(filePath);
-  if (fileExtension === '.json') {
-    return JSON.parse(fileContent);
+const parseFile = (format, data) => {
+  switch (format) {
+    case 'json':
+      return JSON.parse(data);
+    case 'yml':
+    case 'yaml':
+      return yaml.load(data);
+    default:
+      throw new Error`i don't know this format (ಡ‸ಡ)`();
   }
-  if (fileExtension === '.yaml' || fileExtension === '.yml') {
-    return yaml.load(fileContent);
-  }
-
-  throw new Error(`Unsupported file format: ${fileExtension}`);
 };
 
 export default parseFile;
