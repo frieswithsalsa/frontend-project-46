@@ -12,3 +12,5 @@ rules:
   import/extensions:
     - error
     - js: always
+plugins:
+  - jest
