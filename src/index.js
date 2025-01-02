@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, extname } from 'path';
 import { cwd } from 'process';
 import parseFile from './parsers.js';
 import buildDiff from './buildDiff.js';
@@ -12,7 +12,7 @@ const readfile = (filepath) => {
   return content;
 };
 
-const getExtension = (file) => file.split('.')[1];
+const getExtension = (file) => extname(file).slice(1);
 
 const genDiff = (filepath1, filepath2, format = 'stylish') => {
   const file1 = parseFile(getExtension(filepath1), readfile(filepath1));
