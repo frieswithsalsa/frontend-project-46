@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/alllenk1/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/alllenk1/frontend-project-46/actions)",
+  "description": "A tool for generating and comparing the difference between two configuration files in various formats (stylish, plain, json). Built with Node.js, uses Commander, js-yaml, and lodash for core functionality. [![Actions Status](https://github.com/alllenk1/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/alllenk1/frontend-project-46/actions)",
   "main": "src/index.js",
   "bin": {
     "gendiff": "bin/gendiff.js"
