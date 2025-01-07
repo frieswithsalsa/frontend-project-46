@@ -1,38 +1,35 @@
 import _ from 'lodash';
 
-const buildDiff = (obj1, obj2) => {
-  // Собираем уникальные ключи обоих объектов, сортируем их
-  const sortedUniqKeys = _.sortBy(_.union(Object.keys(obj1), Object.keys(obj2)));
+const buildDiff = (data1, data2) => {
+  const sortedUniqKeys = _.sortBy(
+    _.union(Object.keys(data1), Object.keys(data2))
+  );
 
   return sortedUniqKeys.map((key) => {
-    const value1 = obj1[key];
-    const value2 = obj2[key];
-
-    // Если ключ есть только в obj2
-    if (!Object.hasOwn(obj1, key)) {
-      return { key, value: value2, type: 'added' };
+    if (!Object.hasOwn(data1, key)) {
+      return { key, value: data2[key], type: 'added' };
     }
 
-    // Если ключ есть только в obj1
-    if (!Object.hasOwn(obj2, key)) {
-      return { key, value: value1, type: 'deleted' };
+    if (!Object.hasOwn(data2, key)) {
+      return { key, value: data1[key], type: 'deleted' };
     }
 
-    // Если значения одинаковые
-    if (value1 === value2) {
-      return { key, value: value1, type: 'unchanged' };
+    if (data1[key] === data2[key]) {
+      return { key, value: data1[key], type: 'unchanged' };
     }
 
-    // Если значения — объекты, рекурсивно вызываем buildDiff
-    if (_.isObject(value1) && _.isObject(value2)) {
-      return { key, value: buildDiff(value1, value2), type: 'hasChild' };
+    if (_.isObject(data1[key]) && _.isObject(data2[key])) {
+      return {
+        key,
+        value: buildDiff(data1[key], data2[key]),
+        type: 'hasChild',
+      };
     }
 
-    // Если значения различаются
     return {
       key,
-      oldValue: value1,
-      value: value2,
+      value1: data1[key],
+      value2: data2[key],
       type: 'changed',
     };
   });
