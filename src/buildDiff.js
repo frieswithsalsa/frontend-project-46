@@ -1,9 +1,7 @@
 import _ from 'lodash';
 
 const buildDiff = (data1, data2) => {
-  const sortedUniqKeys = _.sortBy(
-    _.union(Object.keys(data1), Object.keys(data2))
-  );
+  const sortedUniqKeys = _.sortBy(_.union(Object.keys(data1), Object.keys(data2)));
 
   return sortedUniqKeys.map((key) => {
     if (!Object.hasOwn(data1, key)) {
