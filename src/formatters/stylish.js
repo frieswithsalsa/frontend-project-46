@@ -17,7 +17,13 @@ const stylish = (data) => {
   const iter = (obj, depth) => {
     const currentReplacer = replacer.repeat(depth);
     const result = obj.flatMap((node) => {
-      const { key, value, type, value1, value2 } = node;
+      const {
+        key,
+        value,
+        type,
+        value1,
+        value2,
+      } = node;
       switch (type) {
         case 'added':
           return `${currentReplacer}  + ${key}: ${stringify(value, depth + 1)}`;
