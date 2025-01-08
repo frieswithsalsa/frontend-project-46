@@ -32,11 +32,10 @@ const buildDiff = (data1, data2) => {
       };
     }
 
-    // Обработка изменения значений
     return {
       key,
-      value1: data1[key] !== undefined ? data1[key] : null,
-      value2: data2[key] !== undefined ? data2[key] : null,
+      value1: data1[key],
+      value2: data2[key],
       type: 'changed',
     };
   });

@@ -17,9 +17,7 @@ const stylish = (data) => {
   const iter = (obj, depth) => {
     const currentReplacer = replacer.repeat(depth);
     const result = obj.flatMap((node) => {
-      const {
-        key, zz, value, type,
-      } = node;
+      const { key, value, type, value1, value2 } = node;
       switch (type) {
         case 'added':
           return `${currentReplacer}  + ${key}: ${stringify(value, depth + 1)}`;
@@ -28,11 +26,11 @@ const stylish = (data) => {
         case 'unchanged':
           return `${currentReplacer}    ${key}: ${stringify(value, depth + 1)}`;
         case 'changed':
-          return `${currentReplacer}  - ${key}: ${stringify(zz, depth + 1)}\n${currentReplacer}  + ${key}: ${stringify(value, depth + 1)}`;
+          return `${currentReplacer}  - ${key}: ${stringify(value1, depth + 1)}\n${currentReplacer}  + ${key}: ${stringify(value2, depth + 1)}`;
         case 'hasChild':
           return `${currentReplacer}    ${key}: ${iter(value, depth + 1)}`;
         default:
-          throw new Error('something wrong');
+          throw new Error('Unknown diff type');
       }
     });
     return `{\n${result.join('\n')}\n${currentReplacer}}`;
