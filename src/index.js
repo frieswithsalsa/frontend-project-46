@@ -9,15 +9,14 @@ const readFile = (filepath) => {
   const currentDir = cwd();
   const absolutePath = resolve(currentDir, filepath);
   const content = readFileSync(absolutePath, 'utf-8');
-  return content;
+  const extension = extname(filepath).slice(1);
+  return parse(extension, content);
 };
 
-const getExtension = (file) => extname(file).slice(1);
-
 const genDiff = (filepath1, filepath2, format = 'stylish') => {
-  const file1 = parse(getExtension(filepath1), readFile(filepath1));
-  const file2 = parse(getExtension(filepath2), readFile(filepath2));
-  const diffTree = buildDiff(file1, file2);
+  const data1 = readFile(filepath1);
+  const data2 = readFile(filepath2);
+  const diffTree = buildDiff(data1, data2);
   return formatter(diffTree, format);
 };
 
