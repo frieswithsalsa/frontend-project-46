@@ -15,8 +15,11 @@ const stringify = (data, depth) => {
 
 const stylish = (data) => {
   const iter = (obj, depth) => {
+    if (!obj || !Array.isArray(obj)) {
+      return stringify(obj, depth);
+    }
     const currentReplacer = replacer.repeat(depth);
-    const result = obj.flatMap((node) => {
+    const result = obj.map((node) => {
       const {
         key,
         value,
@@ -32,8 +35,8 @@ const stylish = (data) => {
         case 'unchanged':
           return `${currentReplacer}    ${key}: ${stringify(value, depth + 1)}`;
         case 'changed':
-          return `${currentReplacer}  - ${key}: ${stringify(value1, depth + 1)}\n${currentReplacer}  + ${key}: ${stringify(value2, depth + 1)}`;
-        case 'hasChild':
+          return `${currentReplacer}  - ${stringify(value1, depth + 1)}\n${currentReplacer}  + ${key}: ${stringify(value2, depth + 1)}`; // Исправлено
+        case 'nested':
           return `${currentReplacer}    ${key}: ${iter(value, depth + 1)}`;
         default:
           throw new Error('Unknown diff type');

@@ -14,10 +14,13 @@ const stringify = (data) => {
 
 const plain = (data) => {
   const iter = (obj, path) => {
+    if (!obj) {
+      return '';
+    }
     const values = Object.values(obj);
-    const strings = values.flatMap((node) => {
+    const strings = values.map((node) => {
       const {
-        key, value, type, value1, value2,
+        key, value, type, value1, value2, children,
       } = node;
       const newPath = path === '' ? `${key}` : `${path}.${key}`;
 
@@ -28,16 +31,16 @@ const plain = (data) => {
           return `Property '${newPath}' was removed`;
         case 'changed':
           return `Property '${newPath}' was updated. From ${stringify(value1)} to ${stringify(value2)}`;
-        case 'hasChild':
-          return iter(value, newPath);
+        case 'nested':
+          return iter(children, newPath);
         case 'unchanged':
-          return [];
+          return null;
         default:
           throw new Error('Unknown diff type');
       }
-    });
+    }).filter(Boolean);
 
-    return strings.filter((item) => item !== undefined).join('\n');
+    return strings.join('\n');
   };
 
   return iter(data, '');

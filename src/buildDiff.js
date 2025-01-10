@@ -20,15 +20,15 @@ const buildDiff = (data1, data2) => {
       };
     }
 
-    if (data1[key] === data2[key]) {
+    if (_.isEqual(data1[key], data2[key])) {
       return { key, value: data1[key], type: 'unchanged' };
     }
 
     if (_.isObject(data1[key]) && _.isObject(data2[key])) {
       return {
         key,
-        value: buildDiff(data1[key], data2[key]),
-        type: 'hasChild',
+        children: buildDiff(data1[key], data2[key]),
+        type: 'nested',
       };
     }
 
