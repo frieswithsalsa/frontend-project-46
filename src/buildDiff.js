@@ -7,7 +7,7 @@ const buildDiff = (data1, data2) => {
     if (!Object.hasOwn(data1, key)) {
       return {
         key,
-        value: data2[key] !== undefined ? data2[key] : null,
+        value: data2[key],
         type: 'added',
       };
     }
@@ -15,7 +15,7 @@ const buildDiff = (data1, data2) => {
     if (!Object.hasOwn(data2, key)) {
       return {
         key,
-        value: data1[key] !== undefined ? data1[key] : null,
+        value: data1[key],
         type: 'deleted',
       };
     }
