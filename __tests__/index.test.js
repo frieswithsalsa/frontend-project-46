@@ -10,7 +10,6 @@ const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
-// Чтение ожидаемых фикстур
 const expectedTree = readFile('resultTree.txt');
 const expectedPlain = readFile('resultPlain.txt');
 const expectedJSON = readFile('resultJSON.txt');
@@ -36,7 +35,6 @@ test('JSON gendiff with json format', () => {
   expect(genDiff(file1, file2, 'json')).toEqual(expectedJSON);
 });
 
-// Добавьте аналогичные тесты для YML
 test('YML gendiff with stylish format', () => {
   const file1 = getFixturePath('file1.yml');
   const file2 = getFixturePath('file2.yml');
@@ -58,7 +56,6 @@ test('YML gendiff with json format', () => {
   expect(genDiff(file1, file2, 'json')).toEqual(expectedJSON);
 });
 
-// Добавьте аналогичные тесты для YAML
 test('YAML gendiff with stylish format', () => {
   const file1 = getFixturePath('file1.yaml');
   const file2 = getFixturePath('file2.yaml');
