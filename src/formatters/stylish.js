@@ -3,14 +3,15 @@ import _ from 'lodash';
 const replacer = '    ';
 
 const stringify = (data, depth) => {
-  if (!_.isObject(data)) {
+  if (data === null || !_.isObject(data)) {
     return `${data}`;
   }
 
-  const currentReplacer = replacer.repeat(depth);
+  const indent = replacer.repeat(depth);
+  const bracketIndent = replacer.repeat(Math.max(depth - 1, 0));
   const entries = Object.entries(data);
-  const strings = entries.map(([key, value]) => `${currentReplacer}    ${key}: ${stringify(value, depth + 1)}`);
-  return `{\n${strings.join('\n')}\n${currentReplacer}}`;
+  const strings = entries.map(([key, value]) => `${indent}${key}: ${stringify(value, depth + 1)}`);
+  return `{\n${strings.join('\n')}\n${bracketIndent}}`;
 };
 
 const stylish = (data) => {
@@ -18,32 +19,31 @@ const stylish = (data) => {
     if (!obj || !Array.isArray(obj)) {
       return stringify(obj, depth);
     }
-    const currentReplacer = replacer.repeat(depth);
+
+    const indent = replacer.repeat(depth);
+    const bracketIndent = replacer.repeat(Math.max(depth - 1, 0));
     const result = obj.map((node) => {
-      const {
-        key,
-        value,
-        type,
-        value1,
-        value2,
-      } = node;
+      const { key, value, type, value1, value2 } = node;
+
       switch (type) {
         case 'added':
-          return `${currentReplacer}  + ${key}: ${stringify(value, depth + 1)}`;
+          return `${indent}  + ${key}: ${stringify(value, depth + 1)}`;
         case 'deleted':
-          return `${currentReplacer}  - ${key}: ${stringify(value, depth + 1)}`;
+          return `${indent}  - ${key}: ${stringify(value, depth + 1)}`;
         case 'unchanged':
-          return `${currentReplacer}    ${key}: ${stringify(value, depth + 1)}`;
+          return `${indent}    ${key}: ${stringify(value, depth + 1)}`;
         case 'changed':
-          return `${currentReplacer}  - ${stringify(value1, depth + 1)}\n${currentReplacer}  + ${key}: ${stringify(value2, depth + 1)}`; // Исправлено
+          return `${indent}  - ${stringify(value1, depth + 1)}\n${indent}  + ${key}: ${stringify(value2, depth + 1)}`;
         case 'nested':
-          return `${currentReplacer}    ${key}: ${iter(value, depth + 1)}`;
+          return `${indent}    ${key}: ${iter(value, depth + 1)}`;
         default:
           throw new Error('Unknown diff type');
       }
     });
-    return `{\n${result.join('\n')}\n${currentReplacer}}`;
+
+    return `{\n${result.join('\n')}\n${bracketIndent}}`;
   };
+
   return iter(data, 0);
 };
 

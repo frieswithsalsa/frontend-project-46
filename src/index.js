@@ -3,7 +3,7 @@ import { resolve, extname } from 'path';
 import { cwd } from 'process';
 import parse from './parsers.js';
 import buildDiff from './buildDiff.js';
-import formatter from './formatters/index.js';
+import format from './formatters/index.js';
 
 const readFile = (filepath) => {
   const currentDir = cwd();
@@ -13,11 +13,11 @@ const readFile = (filepath) => {
   return parse(extension, content);
 };
 
-const genDiff = (filepath1, filepath2, format = 'stylish') => {
+const genDiff = (filepath1, filepath2, formatType = 'stylish') => {
   const data1 = readFile(filepath1);
   const data2 = readFile(filepath2);
   const diffTree = buildDiff(data1, data2);
-  return formatter(diffTree, format);
+  return format(diffTree, formatType);
 };
 
 export default genDiff;

@@ -48,7 +48,7 @@
         "type": "changed"
        }
       ],
-      "type": "hasChild"
+      "type": "nested"
      },
      {
       "key": "key",
@@ -61,10 +61,10 @@
       "type": "added"
      }
     ],
-    "type": "hasChild"
+    "type": "nested"
    }
   ],
-  "type": "hasChild"
+  "type": "nested"
  },
  {
   "key": "group1",
@@ -89,7 +89,7 @@
     "type": "changed"
    }
   ],
-  "type": "hasChild"
+  "type": "nested"
  },
  {
   "key": "group2",
