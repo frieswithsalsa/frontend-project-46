@@ -26,6 +26,7 @@ const stylish = (data) => {
         type,
         value1,
         value2,
+        children,
       } = node;
       switch (type) {
         case 'added':
@@ -35,9 +36,9 @@ const stylish = (data) => {
         case 'unchanged':
           return `${currentReplacer}    ${key}: ${stringify(value, depth + 1)}`;
         case 'changed':
-          return `${currentReplacer}  - ${stringify(value1, depth + 1)}\n${currentReplacer}  + ${key}: ${stringify(value2, depth + 1)}`; // Исправлено
+          return `${currentReplacer}  - ${stringify(value1, depth + 1)}\n${currentReplacer}  + ${key}: ${stringify(value2, depth + 1)}`;
         case 'nested':
-          return `${currentReplacer}    ${key}: ${iter(value, depth + 1)}`;
+          return `${currentReplacer}    ${key}: ${iter(children, depth + 1)}`;
         default:
           throw new Error('Unknown diff type');
       }
