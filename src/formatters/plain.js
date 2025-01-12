@@ -1,49 +1,46 @@
 import _ from 'lodash';
 
 const stringify = (data) => {
-  if (_.isObject(data)) {
-    return '[complex value]';
-  }
-
   if (typeof data === 'string') {
     return `'${data}'`;
   }
-
-  return data;
+  if (_.isObject(data)) {
+    return '[complex value]';
+  }
+  return String(data);
 };
 
-const plain = (data) => {
-  const iter = (obj, path) => {
-    if (!obj) {
-      return '';
+const getProperty = (node, PropertyPath) => {
+  if (PropertyPath === '') {
+    return `${node.key}`;
+  }
+  return `${PropertyPath}.${node.key}`;
+};
+
+const plain = (tree, PropertyPath = '') => {
+  const buildOutput = tree.flatMap((node) => {
+    switch (node.type) {
+      case 'deleted':
+        return `Property '${getProperty(node, PropertyPath)}' was removed`;
+
+      case 'added':
+        return `Property '${getProperty(node, PropertyPath)}' was added with value: ${stringify(node.value)}`;
+
+      case 'nested':
+        return plain(node.children, getProperty(node, PropertyPath));
+
+      case 'changed':
+        return `Property '${getProperty(node, PropertyPath)}' was updated. From ${stringify(node.value1)} to ${stringify(node.value2)}`;
+
+      case 'unchanged':
+        return [];
+
+      default:
+        throw new Error(`Unknown type: ${node.type}.`);
     }
-    const values = Object.values(obj);
-    const strings = values.map((node) => {
-      const {
-        key, value, type, value1, value2, children,
-      } = node;
-      const newPath = path === '' ? `${key}` : `${path}.${key}`;
-
-      switch (type) {
-        case 'added':
-          return `Property '${newPath}' was added with value: ${stringify(value)}`;
-        case 'deleted':
-          return `Property '${newPath}' was removed`;
-        case 'changed':
-          return `Property '${newPath}' was updated. From ${stringify(value1)} to ${stringify(value2)}`;
-        case 'nested':
-          return iter(children, newPath);
-        case 'unchanged':
-          return null;
-        default:
-          throw new Error('Unknown diff type');
-      }
-    }).filter(Boolean);
-
-    return strings.join('\n');
-  };
-
-  return iter(data, '');
+  })
+    .join('\n');
+  return buildOutput;
 };
 
 export default plain;

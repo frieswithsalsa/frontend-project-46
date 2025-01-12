@@ -1,57 +1,51 @@
 import _ from 'lodash';
 
-const replacer = '    ';
-
-const stringify = (data, depth) => {
-  if (data === null || !_.isObject(data)) {
-    return `${data}`;
+const ident = (depth, type = 'open', spacesCount = 4, replacer = ' ') => {
+  if (type === 'open') {
+    return replacer.repeat((depth * spacesCount) - 2);
   }
-
-  const indent = replacer.repeat(depth);
-  const bracketIndent = replacer.repeat(Math.max(depth - 1, 0));
-  const entries = Object.entries(data);
-  const strings = entries.map(([key, value]) => `${indent}${key}: ${stringify(value, depth + 1)}`);
-  return `{\n${strings.join('\n')}\n${bracketIndent}}`;
+  return replacer.repeat((depth * spacesCount) - spacesCount);
 };
 
-const stylish = (data) => {
-  const createIndent = (depth) => replacer.repeat(depth);
+const stringify = (data, depth = 1) => {
+  if (!_.isPlainObject(data)) {
+    return String(data);
+  }
+  const collection = Object
+    .entries(data)
+    .map(([key, value]) => `${ident(depth)}  ${key}: ${stringify(value, depth + 1)}`)
+    .join('\n');
+  return `{\n${collection}\n${ident(depth, 'close')}}`;
+};
 
-  const iter = (obj, depth) => {
-    if (!obj || !Array.isArray(obj)) {
-      return stringify(obj, depth);
+const stylish = (tree, depth = 1) => {
+  const buildOutput = tree.flatMap((node) => {
+    switch (node.type) {
+      case 'deleted':
+        return `${ident(depth)}- ${node.key}: ${stringify(node.value, depth + 1)}`;
+
+      case 'added':
+        return `${ident(depth)}+ ${node.key}: ${stringify(node.value, depth + 1)}`;
+
+      case 'nested':
+        return `${ident(depth)}  ${node.key}: ${stylish(node.children, depth + 1)}`;
+
+      case 'unchanged':
+        return `${ident(depth)}  ${node.key}: ${stringify(node.value, depth + 1)}`;
+
+      case 'changed':
+        return [
+          `${ident(depth)}- ${node.key}: ${stringify(node.value1, depth + 1)}`,
+          `${ident(depth)}+ ${node.key}: ${stringify(node.value2, depth + 1)}`,
+        ];
+
+      default:
+        throw new Error(`Unknown type: ${node.type}`);
     }
+  })
+    .join('\n');
 
-    const indent = createIndent(depth);
-    const bracketIndent = createIndent(Math.max(depth - 1, 0));
-    const result = obj.map((node) => {
-      const {
-        key,
-        value,
-        type,
-        value1,
-        value2,
-      } = node;
-      switch (type) {
-        case 'added':
-          return `${indent}  + ${key}: ${stringify(value, depth + 1)}`;
-        case 'deleted':
-          return `${indent}  - ${key}: ${stringify(value, depth + 1)}`;
-        case 'unchanged':
-          return `${indent}    ${key}: ${stringify(value, depth + 1)}`;
-        case 'changed':
-          return `${indent}  - ${stringify(value1, depth + 1)}\n${indent}  + ${key}: ${stringify(value2, depth + 1)}`; // Исправлено
-        case 'nested':
-          return `${indent}    ${key}: ${iter(value, depth + 1)}`;
-        default:
-          throw new Error('Unknown diff type');
-      }
-    });
-
-    return `{\n${result.join('\n')}\n${bracketIndent}}`;
-  };
-
-  return iter(data, 0);
+  return `{\n${buildOutput}\n${ident(depth, 'close')}}`;
 };
 
 export default stylish;
