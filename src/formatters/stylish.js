@@ -25,8 +25,13 @@ const stylish = (data) => {
     const indent = createIndent(depth);
     const bracketIndent = createIndent(Math.max(depth - 1, 0));
     const result = obj.map((node) => {
-      const { key, value, type, value1, value2 } = node;
-
+      const {
+        key,
+        value,
+        type,
+        value1,
+        value2,
+      } = node;
       switch (type) {
         case 'added':
           return `${indent}  + ${key}: ${stringify(value, depth + 1)}`;
@@ -35,9 +40,9 @@ const stylish = (data) => {
         case 'unchanged':
           return `${indent}    ${key}: ${stringify(value, depth + 1)}`;
         case 'changed':
-          return `${indent}  - ${stringify(value1, depth + 1)}\n${indent}  + ${key}: ${stringify(value2, depth + 1)}`;
+          return `${currentReplacer}  - ${stringify(value1, depth + 1)}\n${currentReplacer}  + ${key}: ${stringify(value2, depth + 1)}`; // Исправлено
         case 'nested':
-          return `${indent}    ${key}: ${iter(value, depth + 1)}`;
+          return `${currentReplacer}    ${key}: ${iter(value, depth + 1)}`;
         default:
           throw new Error('Unknown diff type');
       }
