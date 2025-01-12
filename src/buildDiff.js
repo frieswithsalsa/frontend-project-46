@@ -6,7 +6,7 @@ const getSortedKeys = (data1, data2) => {
 
   const arrayOfKeys = [...new Set([...dataKeys1, ...dataKeys2])];
 
-  return arrayOfKeys.sort();
+  return arrayOfKeys.slice().sort();
 };
 
 const buildDiff = (data1, data2) => getSortedKeys(data1, data2).map((key) => {
