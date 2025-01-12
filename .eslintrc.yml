@@ -1,17 +1,17 @@
 env:
-  jest: true      # Разрешает глобальные функции Jest
-  browser: true   # Если код будет работать в браузере
-  es2021: true    # Использование ES2021
+  jest: true      
+  browser: true   
+  es2021: true   
 extends:
-  - airbnb-base   # Базовые правила от Airbnb
+  - airbnb-base   
 parserOptions:
-  ecmaVersion: latest  # Использование последней версии ECMAScript
-  sourceType: module  # Использование модульной системы (import/export)
+  ecmaVersion: latest  
+  sourceType: module 
 rules:
-  no-underscore-dangle: [2, { 'allow': ['__filename', '__dirname'] }]  # Разрешение на использование __filename и __dirname
-  no-console: 0    # Разрешение на использование console (например, console.log)
+  no-underscore-dangle: [2, { 'allow': ['__filename', '__dirname'] }]  
+  no-console: 0    
   import/extensions: 
     - error
-    - js: always   # Обязательные расширения для импортов в JS
+    - js: always  
 plugins:
-  - jest  # Подключаем плагин для Jest
+  - jest  
