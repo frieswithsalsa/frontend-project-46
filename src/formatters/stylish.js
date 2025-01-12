@@ -40,9 +40,9 @@ const stylish = (data) => {
         case 'unchanged':
           return `${indent}    ${key}: ${stringify(value, depth + 1)}`;
         case 'changed':
-          return `${currentReplacer}  - ${stringify(value1, depth + 1)}\n${currentReplacer}  + ${key}: ${stringify(value2, depth + 1)}`; // Исправлено
+          return `${indent}  - ${stringify(value1, depth + 1)}\n${indent}  + ${key}: ${stringify(value2, depth + 1)}`; // Исправлено
         case 'nested':
-          return `${currentReplacer}    ${key}: ${iter(value, depth + 1)}`;
+          return `${indent}    ${key}: ${iter(value, depth + 1)}`;
         default:
           throw new Error('Unknown diff type');
       }
@@ -53,6 +53,5 @@ const stylish = (data) => {
 
   return iter(data, 0);
 };
-
 
 export default stylish;
