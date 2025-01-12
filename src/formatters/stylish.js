@@ -15,13 +15,15 @@ const stringify = (data, depth) => {
 };
 
 const stylish = (data) => {
+  const createIndent = (depth) => replacer.repeat(depth);
+
   const iter = (obj, depth) => {
     if (!obj || !Array.isArray(obj)) {
       return stringify(obj, depth);
     }
 
-    const indent = replacer.repeat(depth);
-    const bracketIndent = replacer.repeat(Math.max(depth - 1, 0));
+    const indent = createIndent(depth);
+    const bracketIndent = createIndent(Math.max(depth - 1, 0));
     const result = obj.map((node) => {
       const { key, value, type, value1, value2 } = node;
 
@@ -46,5 +48,6 @@ const stylish = (data) => {
 
   return iter(data, 0);
 };
+
 
 export default stylish;
